@@ -1,0 +1,50 @@
+# .gitlab-ci.yml
+
+image: alpine:latest
+
+before_script:
+  - echo "Начало выполнения задания в пайплайне"
+
+stages:
+  - test
+  - build
+  - deploy
+
+unit_test:
+  stage: test
+  image: golang:1.17
+  before_script:
+    - echo "Подготовка к тестированию Go-кода"
+    - go version
+  script:
+    - echo "Запуск юнит-тестов..."
+    # Предположим, у вас есть Go-файлы, которые можно протестировать
+    # Если файлов нет, можно просто эмулировать тест:
+    # - go test ./... -v
+    # Для демонстрации добавим простую команду:
+    - echo "Тест 1 пройден"
+    - echo "Тест 2 пройден"
+
+build_image:
+  stage: build
+  image: docker:latest
+  services:
+    - docker:24.0.6-dind
+  before_script:
+    - echo "Подготовка к сборке Docker-образа"
+    - docker info
+  script:
+    - echo "Сборка Docker-образа..."
+    # Эмуляция сборки:
+    - echo "Образ собран с тегом: $CI_COMMIT_SHA"
+
+deploy_to_prod:
+  stage: deploy
+  script:
+    - echo "Deploying application..."
+  environment:
+    name: production
+  when: manual
+  only:
+    - main
+
