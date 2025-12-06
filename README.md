@@ -102,12 +102,8 @@ backend web_servers
 
 ![Запущенные Python-серверы на портах 8001–8003](img/ser.png)
 
-![Конфигурация HAProxy: ACL и weighted backend](img/conig-haproxy
-.png)
+![Конфигурация HAProxy: ACL и weighted backend](img/conig-haproxy.png)
 
-![Проверка: curl с example.local → ответ, без → 403](img/zaprosy
-.png)
-
-
+![Проверка: curl с example.local → ответ, без → 403](img/zaprosy.png)
 
 
