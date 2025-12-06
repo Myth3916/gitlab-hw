@@ -62,5 +62,52 @@ listen web_tcp
 ![Проверка балансировки: чередование ответов от s1 и s2 при запросах к HAProxy на порту 1325](img/3.png)
 
 
+## Задание 2
+
+Настроена балансировка на **7-м уровне (HTTP)** с **Weighted Round Robin**, фильтрацией по домену `example.local` и отказом в обслуживании для других хостов.
+
+### Этапы выполнения
+
+1. Созданы три файла:
+   - `/tmp/s1/index.html`: `Server A (weight 2)`
+   - `/tmp/s2/index.html`: `Server B (weight 3)`
+   - `/tmp/s3/index.html`: `Server C (weight 4)`
+2. Запущены серверы на портах **8001**, **8002**, **8003**.
+3. Настроен HAProxy на порту **8080**:
+   - принимает только запросы с `Host: example.local`
+   - применяет `balance roundrobin` с весами
+   - возвращает **403 Forbidden** для любых других запросов
+4. Добавлена запись в `/etc/hosts`:  
+   ```text
+   127.0.0.1 example.local
+   ```
+
+### Конфигурационный файл HAProxy (`/etc/haproxy/haproxy.cfg`)
+
+```cfg
+frontend http_front
+    bind :8080
+    acl is_example_local hdr(host) -i example.local
+    use_backend web_servers if is_example_local
+    http-request deny if !is_example_local
+
+backend web_servers
+    balance roundrobin
+    server s1 127.0.0.1:8001 weight 2 check
+    server s2 127.0.0.1:8002 weight 3 check
+    server s3 127.0.0.1:8003 weight 4 check
+```
+
+### Скриншоты
+
+![Запущенные Python-серверы на портах 8001–8003](img/ser.png)
+
+![Конфигурация HAProxy: ACL и weighted backend](img/conig-haproxy
+.png)
+
+![Проверка: curl с example.local → ответ, без → 403](img/zaprosy
+.png)
+
+
 
 
