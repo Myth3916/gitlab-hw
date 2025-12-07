@@ -21,7 +21,7 @@ rsync -av --delete --checksum --exclude='.*' ~/ /tmp/backup/
 ![Результат выполнения](img/rsync-mirror-backup.png)
 
 
-### Задание 2
+## Задание 2
 
 #### Скрипт резервного копирования (`~/backup.sh`)
 
@@ -54,32 +54,13 @@ crontab -e
 
 Это означает: запускать скрипт ежедневно в 2:00 утра.
 
-![Скрин crontab](img/cron-logs-success.png)
+![Скрин crontab](img/crontab-daily-backup.png)
 
 
 Проверка логов
 После запуска скрипта (вручную или через cron) в системном журнале появляется запись:
 
-![Запись в лог](img/crontab-daily-backup.png)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+![Запись в лог](img/cron-logs-success.png)
 
 
 
